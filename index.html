@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morocco Motorbike Adventure - Contact Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .id-card {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #333;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h2 {
+            color: #ffa500;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .info-item h3 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-item p {
+            color: #666;
+        }
+
+        .map-section {
+            margin: 30px 0;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .qr-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .qr-code {
+            text-align: center;
+        }
+
+        .qr-code canvas {
+            margin-bottom: 10px;
+        }
+
+        .qr-code p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f5f5f5;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .emergency-note {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .card-header h1 {
+                font-size: 2rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .qr-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="id-card">
+        <div class="card-header">
+            <h1><i class="fas fa-motorcycle"></i> Morocco Motorbike Adventure</h1>
+            <p>Solo Rider Contact Card</p>
+        </div>
+        
+        <div class="card-content">
+            <div class="info-section">
+                <h2><i class="fas fa-user"></i> Rider Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3><i class="fas fa-flag"></i> Nationality</h3>
+                        <p>Switzerland</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-language"></i> Languages</h3>
+                        <p>English, French</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-motorcycle"></i> Motorcycle</h3>
+                        <p>Triumph Scrambler 1200 XE</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-star"></i> Experience Level</h3>
+                        <p>Low experience on trail adventure</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-section">
+                <div id="map"></div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-route"></i> Journey Details</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3><i class="fas fa-calendar-alt"></i> Start Date</h3>
+                        <p>April 20, 2024</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-calendar-check"></i> End Date</h3>
+                        <p>May 1, 2024</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-map-marker-alt"></i> Starting Point</h3>
+                        <p>Tangier, Morocco</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-home"></i> Final Destination</h3>
+                        <p>Nador, Morocco</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="emergency-note">
+                <p><i class="fas fa-exclamation-triangle"></i> In case of emergency or if you'd like to meet up during the journey, please use the contact information below.</p>
+            </div>
+
+            <div class="qr-section">
+                <div class="qr-code">
+                    <canvas id="whatsapp-qr"></canvas>
+                    <p>Scan to join WhatsApp group</p>
+                </div>
+                <div class="qr-code">
+                    <canvas id="instagram-qr"></canvas>
+                    <p>Scan to follow on Instagram</p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <p>Looking forward to meeting fellow riders and sharing experiences!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([31.7917, -7.0926], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add markers for Tangier and Nador
+        L.marker([35.7595, -5.8340]).addTo(map).bindPopup('Tangier - Starting Point<br>April 20, 2025');
+        L.marker([34.000, -4.59]).addTo(map).bindPopup('Night 1<br>April 21, 2025');
+        L.marker([33.260, -5.11]).addTo(map).bindPopup('Night 2<br>April 22, 2025');
+        L.marker([31.686, -4.09578]).addTo(map).bindPopup('Night 3<br>April 23, 2025');
+        L.marker([32.24, -5.15]).addTo(map).bindPopup('Night 4<br>April 24, 2025');
+        L.marker([31.41, -5.18]).addTo(map).bindPopup('Night 5<br>April 25, 2025');
+        L.marker([30.52, -6.47]).addTo(map).bindPopup('Night 6<br>April 26, 2025');
+        L.marker([34.000, -4.5]).addTo(map).bindPopup('Night 7<br>April 27, 2025');
+        L.marker([34.000, -4.5]).addTo(map).bindPopup('Night 8<br>April 28, 2025');
+        L.marker([34.000, -4.5]).addTo(map).bindPopup('Night 9<br>April 29, 2025');
+        L.marker([34.000, -4.5]).addTo(map).bindPopup('Night 10<br>April 30, 2025');    
+        L.marker([35.1688, -2.9278]).addTo(map).bindPopup('Nador - Final Destination<br>May 1, 2025');
+
+        
+        // Add a line between Tangier and Nador
+        const tangier = [35.7595, -5.8340];
+        const nador = [35.1688, -2.9278];
+       
+        const journeyLine = L.polyline([tangier, nador], {
+            color: '#ffa500',
+            weight: 4,
+            opacity: 0.7,
+            dashArray: '10, 10'
+        }).addTo(map);
+        
+        // Fit the map to show both markers and the line
+        map.fitBounds(journeyLine.getBounds(), { padding: [50, 50] });
+
+        // Generate QR codes
+        const whatsappLink = 'https://wa.me/your-whatsapp-number'; // Replace with your WhatsApp group link
+        const instagramLink = 'https://instagram.com/your-instagram'; // Replace with your Instagram profile
+
+        QRCode.toCanvas(document.getElementById('whatsapp-qr'), whatsappLink, {
+            width: 150,
+            margin: 2
+        });
+
+        QRCode.toCanvas(document.getElementById('instagram-qr'), instagramLink, {
+            width: 150,
+            margin: 2
+        });
+    </script>
+</body>
+</html> 
