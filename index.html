@@ -120,17 +120,35 @@
             margin-top: 20px;
         }
 
-        .qr-code {
-            text-align: center;
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid #ffd700;
         }
 
-        .qr-code canvas {
-            margin-bottom: 10px;
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .qr-code p {
-            color: #666;
-            font-size: 0.9rem;
+        .social-link i {
+            font-size: 1.5rem;
+        }
+
+        .whatsapp-link {
+            color: #25D366;
+        }
+
+        .instagram-link {
+            color: #E1306C;
         }
 
         .contact-info {
@@ -239,14 +257,14 @@
             </div>
 
             <div class="qr-section">
-                <div class="qr-code">
-                    <canvas id="whatsapp-qr"></canvas>
-                    <p>Scan to join WhatsApp group</p>
-                </div>
-                <div class="qr-code">
-                    <canvas id="instagram-qr"></canvas>
-                    <p>Scan to follow on Instagram</p>
-                </div>
+                <a href="https://wa.me/0041794570319" class="social-link" target="_blank">
+                    <i class="fab fa-whatsapp whatsapp-link"></i>
+                    <span>Contact on WhatsApp</span>
+                </a>
+                <a href="https://instagram.com/sirmespompes" class="social-link" target="_blank">
+                    <i class="fab fa-instagram instagram-link"></i>
+                    <span>Follow on Instagram</span>
+                </a>
             </div>
 
             <div class="contact-info">
@@ -304,20 +322,6 @@
         // Fit the map to show all markers
         const bounds = L.latLngBounds(allMarkers.map(marker => marker.getLatLng()));
         map.fitBounds(bounds, { padding: [50, 50] });
-
-        // Generate QR codes
-        const whatsappLink = 'https://wa.me/0041794570319'; // Replace with your WhatsApp group link
-        const instagramLink = 'https://instagram.com/sirmespompes'; // Replace with your Instagram profile
-
-        QRCode.toCanvas(document.getElementById('whatsapp-qr'), whatsappLink, {
-            width: 150,
-            margin: 2
-        });
-
-        QRCode.toCanvas(document.getElementById('instagram-qr'), instagramLink, {
-            width: 150,
-            margin: 2
-        });
     </script>
 </body>
 </html> 
