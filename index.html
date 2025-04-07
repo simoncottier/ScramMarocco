@@ -44,6 +44,7 @@
             color: #333;
             padding: 30px;
             text-align: center;
+            position: relative;
         }
 
         .card-header h1 {
@@ -54,6 +55,32 @@
         .card-header p {
             font-size: 1.2rem;
             opacity: 0.9;
+        }
+
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            transform: scale(1.1);
+            background-color: white;
+        }
+
+        .language-toggle i {
+            font-size: 1.2rem;
+            color: #333;
         }
 
         .card-content {
@@ -191,6 +218,9 @@
 <body>
     <div class="id-card">
         <div class="card-header">
+            <div class="language-toggle" id="languageToggle">
+                <i class="fas fa-language"></i>
+            </div>
             <h1><i class="fas fa-motorcycle"></i> Morocco Motorbike Adventure</h1>
             <p>Solo Rider Contact Card</p>
         </div>
@@ -252,10 +282,6 @@
                 </div>
             </div>
 
-            <div class="emergency-note">
-                <p><i class="fas fa-exclamation-triangle"></i> In case of emergency or if you'd like to meet up during the journey, please use the contact information below.</p>
-            </div>
-
             <div class="qr-section">
                 <a href="https://wa.me/0041794570319" class="social-link" target="_blank">
                     <i class="fab fa-whatsapp whatsapp-link"></i>
@@ -298,7 +324,19 @@
         const allMarkers = [night0, night1, night2, night3, night4, night5, night6, night7, night8, night9, night10, nador];
         
         // Create lines between consecutive markers with different colors
-        const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3', '#ff1493', '#00ffff', '#ff00ff', '#ffd700'];
+        const colors = [
+            '#00ff00', // Green
+            '#33ff00',
+            '#66ff00',
+            '#99ff00',
+            '#ccff00',
+            '#ffff00', // Yellow
+            '#ffcc00',
+            '#ff9900',
+            '#ff6600',
+            '#ff3300',
+            '#ff0000'  // Red
+        ];
         
         for (let i = 0; i < allMarkers.length - 1; i++) {
             const startMarker = allMarkers[i];
@@ -322,6 +360,101 @@
         // Fit the map to show all markers
         const bounds = L.latLngBounds(allMarkers.map(marker => marker.getLatLng()));
         map.fitBounds(bounds, { padding: [50, 50] });
+
+        // Language translation functionality
+        const translations = {
+            en: {
+                title: "Morocco Motorbike Adventure 20 April - 1 May 2025",
+                subtitle: "Solo Rider Contact Card",
+                riderInfo: "Rider Information",
+                name: "Name",
+                age: "Age",
+                nationality: "Nationality",
+                languages: "Languages",
+                motorcycle: "Motorcycle",
+                experience: "Experience Level",
+                journeyDetails: "Journey Details",
+                startDate: "Start Date",
+                endDate: "End Date",
+                startingPoint: "Starting Point",
+                finalDestination: "Final Destination",
+                contactWhatsapp: "Contact on WhatsApp",
+                followInstagram: "Follow on Instagram",
+                lookingForward: "Looking forward to meeting fellow riders and sharing experiences!"
+            },
+            fr: {
+                title: "Balade autour du Maroc 20   avril - 1 mai 2025",
+                subtitle: "Un peu plus sur moi",
+                riderInfo: "Informations sur le pilote du dimanche",
+                name: "Nom",
+                age: "Âge",
+                nationality: "Nationalité",
+                languages: "Langues",
+                motorcycle: "Moto",
+                experience: "Niveau d'Expérience",
+                journeyDetails: "Détails du Voyage",
+                startDate: "Date de Départ",
+                endDate: "Date de Retour",
+                startingPoint: "Point de Départ",
+                finalDestination: "Destination Finale",
+                contactWhatsapp: "Contacter sur WhatsApp",
+                followInstagram: "Suivre sur Instagram",
+                lookingForward: "Au plaisir de partager quelques chemins de terre!"
+            }
+        };
+
+        let currentLang = 'en';
+        const languageToggle = document.getElementById('languageToggle');
+
+        languageToggle.addEventListener('click', function() {
+            currentLang = currentLang === 'en' ? 'fr' : 'en';
+            updateLanguage();
+        });
+
+        function updateLanguage() {
+            // Update header
+            document.querySelector('.card-header h1').innerHTML = `<i class="fas fa-motorcycle"></i> ${translations[currentLang].title}`;
+            document.querySelector('.card-header p').textContent = translations[currentLang].subtitle;
+            
+            // Update language toggle icon
+            languageToggle.innerHTML = `<i class="fas fa-language"></i>`;
+            languageToggle.title = currentLang === 'en' ? 'Switch to French' : 'Passer en anglais';
+            
+            // Update section headers
+            document.querySelectorAll('.info-section h2').forEach((header, index) => {
+                if (index === 0) {
+                    header.innerHTML = `<i class="fas fa-user"></i> ${translations[currentLang].riderInfo}`;
+                } else if (index === 1) {
+                    header.innerHTML = `<i class="fas fa-route"></i> ${translations[currentLang].journeyDetails}`;
+                }
+            });
+            
+            // Update info items
+            const infoItems = document.querySelectorAll('.info-item h3');
+            infoItems[0].innerHTML = `<i class="fas fa-user-circle"></i> ${translations[currentLang].name}`;
+            infoItems[1].innerHTML = `<i class="fas fa-birthday-cake"></i> ${translations[currentLang].age}`;
+            infoItems[2].innerHTML = `<i class="fas fa-flag"></i> ${translations[currentLang].nationality}`;
+            infoItems[3].innerHTML = `<i class="fas fa-language"></i> ${translations[currentLang].languages}`;
+            infoItems[4].innerHTML = `<i class="fas fa-motorcycle"></i> ${translations[currentLang].motorcycle}`;
+            infoItems[5].innerHTML = `<i class="fas fa-star"></i> ${translations[currentLang].experience}`;
+            
+            infoItems[6].innerHTML = `<i class="fas fa-calendar-alt"></i> ${translations[currentLang].startDate}`;
+            infoItems[7].innerHTML = `<i class="fas fa-calendar-check"></i> ${translations[currentLang].endDate}`;
+            infoItems[8].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${translations[currentLang].startingPoint}`;
+            infoItems[9].innerHTML = `<i class="fas fa-home"></i> ${translations[currentLang].finalDestination}`;
+            
+            // Update social links
+            document.querySelectorAll('.social-link span').forEach((span, index) => {
+                if (index === 0) {
+                    span.textContent = translations[currentLang].contactWhatsapp;
+                } else if (index === 1) {
+                    span.textContent = translations[currentLang].followInstagram;
+                }
+            });
+            
+            // Update contact info
+            document.querySelector('.contact-info p').textContent = translations[currentLang].lookingForward;
+        }
     </script>
 </body>
 </html> 
